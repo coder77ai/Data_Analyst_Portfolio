@@ -32,183 +32,83 @@ body {
     color: var(--text-color);
     overflow-x: hidden;
     position: relative;
+    background: #ffffff;
+    min-height: 100vh;
+}
+
+/* Background Video */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.15;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(255, 255, 255, 0.9) 100%
+    );
+    z-index: 1;
+}
+
+/* Tech Stacks Floating Elements */
+.tech-stacks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.tech-stack-item {
+    position: absolute;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgba(99, 102, 241, 0.1);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.tech-stack-item.active {
+    opacity: 0.4;
+    transform: scale(1);
+    color: rgba(99, 102, 241, 0.3);
+}
+
+.tech-stack-item.strong {
+    opacity: 0.6;
+    transform: scale(1.1);
+    color: rgba(99, 102, 241, 0.5);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-}
-
-/* PowerBI Dashboard Background */
-.dashboard-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        linear-gradient(135deg, var(--royal-green) 0%, var(--royal-green-light) 50%, var(--royal-green-dark) 100%),
-        repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 40px,
-            rgba(255, 255, 255, 0.05) 40px,
-            rgba(255, 255, 255, 0.05) 41px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            transparent,
-            transparent 40px,
-            rgba(255, 255, 255, 0.05) 40px,
-            rgba(255, 255, 255, 0.05) 41px
-        );
-    z-index: -1;
-    opacity: 1;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    overflow: hidden;
-}
-
-.dashboard-background.active {
-    opacity: 1;
-    transform: scale(1.02);
-}
-
-.chart-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 20px;
-    padding: 40px;
-    height: 100%;
-    animation: chartFloat 20s infinite ease-in-out;
-    background: transparent;
-}
-
-.chart-box {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-    backdrop-filter: blur(5px);
-}
-
-.chart-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.95);
-}
-
-.chart-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--royal-green-dark);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.chart-bar-chart {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    height: 80px;
-}
-
-.bar {
-    flex: 1;
-    background: linear-gradient(180deg, #10b981, #059669, #047857);
-    border-radius: 4px 4px 0 0;
-    min-height: 20px;
-    animation: barGrow 2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.chart-line {
-    height: 80px;
-}
-
-.line-chart {
-    width: 100%;
-    height: 100%;
-}
-
-.line-chart polyline {
-    stroke: #10b981;
-    stroke-width: 3;
-    filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
-}
-
-.chart-pie {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: conic-gradient(
-        #10b981 0deg 126deg,
-        #059669 126deg 216deg,
-        #047857 216deg 360deg
-    );
-    margin: 0 auto;
-    position: relative;
-    animation: pieRotate 3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.pie-segment {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
-
-.kpi-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.kpi-item {
-    text-align: center;
-}
-
-.kpi-value {
-    font-size: 24px;
-    font-weight: 700;
-    color: #10b981;
-    margin-bottom: 5px;
-}
-
-.kpi-label {
-    font-size: 11px;
-    color: var(--royal-green-dark);
-    text-transform: uppercase;
-    font-weight: 500;
-}
-
-@keyframes chartFloat {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-@keyframes barGrow {
-    from {
-        height: 0;
-    }
-}
-
-@keyframes pieRotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 /* Navigation */
@@ -298,7 +198,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: transparent;
     color: var(--text-color);
     position: relative;
     overflow: hidden;
@@ -309,12 +209,9 @@ body {
     position: relative;
     z-index: 1;
     animation: fadeInUp 1s ease;
-    background: rgba(255, 255, 255, 0.6);
+    background: transparent;
     padding: 3rem;
     border-radius: 20px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .hero-title {
@@ -413,20 +310,18 @@ body {
 .section-content {
     position: relative;
     z-index: 1;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(8px);
+    background: transparent;
     transition: all 0.5s ease;
 }
 
 .section-content.active {
-    background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+    background: transparent;
 }
 
 /* About Section */
 .about {
     padding: 100px 0;
-    background: rgba(255, 255, 255, 0.4);
+    background: transparent;
 }
 
 .section-title {
@@ -529,7 +424,7 @@ body {
 /* Skills Section */
 .skills {
     padding: 100px 0;
-    background: rgba(255, 255, 255, 0.35);
+    background: transparent;
 }
 
 .skills-grid {
@@ -598,7 +493,7 @@ body {
 /* Projects Section */
 .projects {
     padding: 100px 0;
-    background: rgba(255, 255, 255, 0.4);
+    background: transparent;
 }
 
 .projects-grid {
@@ -784,7 +679,7 @@ body {
 /* Contact Section */
 .contact {
     padding: 100px 0;
-    background: rgba(255, 255, 255, 0.35);
+    background: transparent;
 }
 
 .contact-content {
@@ -978,11 +873,6 @@ body {
     .project-iframe-container {
         height: 400px;
     }
-
-    .chart-container {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 20px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -1001,10 +891,6 @@ body {
 
     .image-placeholder i {
         font-size: 5rem;
-    }
-
-    .chart-container {
-        grid-template-columns: 1fr;
     }
 
     .project-iframe-container {

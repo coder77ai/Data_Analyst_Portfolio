@@ -34,7 +34,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Huly.io-style Interactive Tab Effects
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.section-content');
-const dashboardBg = document.getElementById('dashboardBg');
 
 // Function to activate section and dashboard background
 function activateSection(sectionId) {
@@ -49,38 +48,9 @@ function activateSection(sectionId) {
         currentSection.classList.add('active');
     }
     
-    // Animate dashboard background
-    if (dashboardBg) {
-        dashboardBg.classList.add('active');
-        setTimeout(() => {
-            dashboardBg.classList.remove('active');
-        }, 1000);
-    }
-    
-    // Animate charts
-    animateCharts();
+    // Section activation complete
 }
 
-// Function to animate charts when section changes
-function animateCharts() {
-    const bars = document.querySelectorAll('.bar');
-    const charts = document.querySelectorAll('.chart-box');
-    
-    bars.forEach((bar, index) => {
-        bar.style.animation = 'none';
-        setTimeout(() => {
-            bar.style.animation = 'barGrow 1s ease';
-        }, index * 100);
-    });
-    
-    charts.forEach((chart, index) => {
-        chart.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            chart.style.transform = 'scale(1)';
-            chart.style.transition = 'transform 0.3s ease';
-        }, index * 50);
-    });
-}
 
 // Add click event listeners to navigation links
 navLinks.forEach(link => {
@@ -205,29 +175,111 @@ if (contactForm) {
     });
 }
 
-// Initialize dashboard animations on page load
+// Initialize on page load
 window.addEventListener('load', () => {
-    animateCharts();
-    
     // Set initial active section
     const homeSection = document.getElementById('home');
     if (homeSection) {
         homeSection.classList.add('active');
     }
+    
+    // Initialize tech stacks positions
+    initializeTechStacks();
 });
 
-// Add parallax effect to dashboard background on scroll
-let lastScrollY = 0;
-window.addEventListener('scroll', () => {
-    const currentScrollY = window.scrollY;
-    
-    if (dashboardBg) {
-        const parallaxSpeed = 0.5;
-        dashboardBg.style.transform = `translateY(${currentScrollY * parallaxSpeed}px)`;
-    }
-    
-    lastScrollY = currentScrollY;
+// Tech Stacks Interactive Effect (like huly.io)
+const techStacksContainer = document.getElementById('techStacks');
+const techStackItems = document.querySelectorAll('.tech-stack-item');
+
+function initializeTechStacks() {
+    // Randomly position tech stack items
+    techStackItems.forEach((item, index) => {
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        item.style.left = `${x}%`;
+        item.style.top = `${y}%`;
+        item.style.transitionDelay = `${index * 0.1}s`;
+    });
+}
+
+// Mouse/Touch movement tracking
+let mouseX = 0;
+let mouseY = 0;
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    updateTechStacks();
 });
+
+document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+        mouseX = e.touches[0].clientX;
+        mouseY = e.touches[0].clientY;
+        updateTechStacks();
+    }
+});
+
+function updateTechStacks() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    techStackItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const itemX = rect.left + rect.width / 2;
+        const itemY = rect.top + rect.height / 2;
+        
+        // Calculate distance from mouse/touch to tech stack item
+        const distance = Math.sqrt(
+            Math.pow(mouseX - itemX, 2) + Math.pow(mouseY - itemY, 2)
+        );
+        
+        // Calculate max distance (diagonal of screen)
+        const maxDistance = Math.sqrt(
+            Math.pow(windowWidth, 2) + Math.pow(windowHeight, 2)
+        );
+        
+        // Normalize distance (0 to 1)
+        const normalizedDistance = Math.min(distance / (maxDistance * 0.5), 1);
+        
+        // Inverse relationship: closer = more visible
+        const proximity = 1 - normalizedDistance;
+        
+        if (proximity > 0.3) {
+            item.classList.add('active');
+            if (proximity > 0.6) {
+                item.classList.add('strong');
+            } else {
+                item.classList.remove('strong');
+            }
+        } else {
+            item.classList.remove('active', 'strong');
+        }
+        
+        // Add subtle movement based on mouse position
+        const moveX = (mouseX - itemX) * 0.01;
+        const moveY = (mouseY - itemY) * 0.01;
+        item.style.transform = `translate(${moveX}px, ${moveY}px) scale(${0.8 + proximity * 0.3})`;
+    });
+}
+
+// Add hover effect on sections
+const sections = document.querySelectorAll('.section-content');
+sections.forEach(section => {
+    section.addEventListener('mouseenter', () => {
+        // Show nearby tech stacks more prominently
+        techStackItems.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const sectionRect = section.getBoundingClientRect();
+            
+            if (rect.top < sectionRect.bottom && rect.bottom > sectionRect.top &&
+                rect.left < sectionRect.right && rect.right > sectionRect.left) {
+                item.classList.add('active');
+            }
+        });
+    });
+});
+
 
 // Add hover effects to project cards
 document.querySelectorAll('.project-card').forEach(card => {
