@@ -727,6 +727,60 @@ body {
     border: 1px solid var(--border-color);
 }
 
+/* Project Iframe Styles */
+.project-iframe-card {
+    grid-column: 1 / -1;
+}
+
+.project-iframe-container {
+    width: 100%;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px 15px 0 0;
+    background: white;
+    border: 1px solid var(--border-color);
+}
+
+.project-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.project-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.project-link-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, var(--deep-blue), var(--primary-color));
+}
+
+.project-link-btn i {
+    font-size: 0.9rem;
+}
+
 /* Contact Section */
 .contact {
     padding: 100px 0;
@@ -917,6 +971,14 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .project-iframe-card {
+        grid-column: 1;
+    }
+
+    .project-iframe-container {
+        height: 400px;
+    }
+
     .chart-container {
         grid-template-columns: repeat(2, 1fr);
         padding: 20px;
@@ -943,5 +1005,9 @@ body {
 
     .chart-container {
         grid-template-columns: 1fr;
+    }
+
+    .project-iframe-container {
+        height: 300px;
     }
 }
